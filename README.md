@@ -13,21 +13,29 @@ A static website in English and Hindi. It's plain HTML, CSS and JS with no build
 | `assets/css/style.css` | Design (colours are at the top) |
 | `assets/js/main.js` | Language toggle, WhatsApp forms, news and gallery loader. The WhatsApp number and default language are set at the top |
 
-## Weekly updates (until the CMS is set up)
+## Updating the website: Admin panel (CMS)
 
-**Add news:** open `data/news.json` on GitHub, click the pencil icon, and add a block at the top of `posts`:
-```json
-{ "date": "2026-11-02", "type_en": "Event", "type_hi": "कार्यक्रम",
-  "title_en": "Sports day", "title_hi": "खेल दिवस",
-  "body_en": "Short text…", "body_hi": "छोटा विवरण…", "image": "images/sports-day.jpg" },
-```
-**Add photos:** upload them to `images/` (Add file → Upload files) and add each one to `data/gallery.json`:
-```json
-{ "src": "images/class-1.jpg", "caption_en": "Daily class", "caption_hi": "रोज़ की कक्षा" }
-```
-**Add a video:** `{ "youtube_id": "dQw4w9WgXcQ", "title_en": "…", "title_hi": "…" }` in `videos`. Use the ID from the YouTube link, not the whole link.
+Open **https://muskansociety.in/admin/** and log in with a GitHub token (one-time setup below).
 
-Commit, and the site updates in about a minute.
+| Tab | What you can change |
+|---|---|
+| News | Add, edit or delete news with a photo (latest 3 also show on the Home page) |
+| Events | Upcoming events. Past events hide automatically |
+| Photos | Gallery photos. "Upload many" adds several at once |
+| Videos | Paste a YouTube link |
+| Office bearers / Members | Names (English and Hindi), roles, photos |
+| Contact & links | Phone, WhatsApp number, email, address, office hours, map, Facebook, Instagram, YouTube |
+
+Every save creates a commit on GitHub. Cloudflare then rebuilds the site, and the change is live in 1–2 minutes. Photos are shrunk automatically before upload.
+
+### Get a login token (once a year)
+1. github.com → your photo → **Settings** → **Developer settings** → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**
+2. Name: `Muskan CMS`. Expiration: 1 year
+3. Repository access: **Only select repositories** → `muskansociety`
+4. Permissions → Repository permissions → **Contents: Read and write**
+5. Generate the token, copy it, and paste it on the admin login page. Keep it private, like a password.
+
+Text on the About, Our Work and Home pages (story, mission, focus areas) is still edited in the `.html` files, or ask Claude to do it.
 
 ## One-time setup
 

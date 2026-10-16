@@ -1,0 +1,59 @@
+{
+  "leaders": [
+    {
+      "name_en": "Sulekha Vishwakarma",
+      "name_hi": "सुलेखा विश्वकर्मा",
+      "role_en": "Founder",
+      "role_hi": "संस्थापक",
+      "photo": ""
+    },
+    {
+      "name_en": "Geeta Rani Sahu",
+      "name_hi": "गीता रानी साहू",
+      "role_en": "President",
+      "role_hi": "अध्यक्ष",
+      "photo": ""
+    },
+    {
+      "name_en": "Uttra Vishwakarma",
+      "name_hi": "उत्तरा विश्वकर्मा",
+      "role_en": "Secretary",
+      "role_hi": "सचिव",
+      "photo": ""
+    },
+    {
+      "name_en": "Chaand Roshan",
+      "name_hi": "चाँद रोशन",
+      "role_en": "Treasurer",
+      "role_hi": "कोषाध्यक्ष",
+      "photo": ""
+    }
+  ],
+  "members": [
+    {
+      "name_en": "Pooja Singh",
+      "name_hi": "पूजा सिंह",
+      "photo": ""
+    },
+    {
+      "name_en": "Shanu Singh",
+      "name_hi": "शानू सिंह",
+      "photo": ""
+    },
+    {
+      "name_en": "Kajal Sen",
+      "name_hi": "काजल सेन",
+      "photo": ""
+    },
+    {
+      "name_en": "Swati Gupta",
+      "name_hi": "स्वाति गुप्ता",
+      "photo": ""
+    },
+    {
+      "name_en": "Arti Gupta",
+      "name_hi": "आरती गुप्ता",
+      "photo": ""
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Muskan Society — Admin</title>
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<style>
+:root{--red:#C8102E;--pink:#B0185E;--purple:#5B2A86;--deep:#2A1240;--ink:#1E1A24;--muted:#6B6475;--line:#E8E1EE;--soft:#F8F3F8;--ok:#1E8E4E;--bad:#C62828;
+--grad:linear-gradient(120deg,#C8102E,#B0185E 45%,#5B2A86)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans Devanagari',sans-serif;background:var(--soft);color:var(--ink);font-size:15px;line-height:1.5}
+button,input,textarea,select{font:inherit}
+.top{background:var(--grad);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5}
+.top b{font-size:1.1rem}.top a{color:#fff}
+.top .r{display:flex;gap:10px;align-items:center;font-size:.9rem}
+.wrap{max-width:1000px;margin:0 auto;padding:20px 16px 80px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+h2{font-size:1.25rem;margin-bottom:4px}h3{font-size:1.05rem;margin-bottom:10px}
+.muted{color:var(--muted);font-size:.9rem}
+label{display:block;font-weight:600;font-size:.88rem;margin:12px 0 5px}
+input[type=text],input[type=password],input[type=date],input[type=url],textarea,select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+input:focus,textarea:focus{outline:none;border-color:var(--pink)}
+textarea{min-height:90px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.btn{border:0;border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer;background:#EEE7F3;color:var(--purple)}
+.btn:hover{filter:brightness(.96)}
+.btn.primary{background:var(--grad);color:#fff}
+.btn.danger{background:#FDECEC;color:var(--bad)}
+.btn.small{padding:5px 12px;font-size:.85rem}
+.btn:disabled{opacity:.5;cursor:wait}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tab{padding:8px 16px;border-radius:999px;background:#fff;border:1.5px solid var(--line);cursor:pointer;font-weight:600;color:var(--ink)}
+.tab.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.item{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item img,.thumb0{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--soft);flex:none}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .a{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.bar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--deep);color:#fff;padding:12px 20px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:20;max-width:92vw;display:none}
+.toast.ok{background:var(--ok)}.toast.bad{background:var(--bad)}
+.modal{position:fixed;inset:0;background:rgba(20,10,30,.55);display:none;align-items:flex-start;justify-content:center;padding:30px 12px;overflow:auto;z-index:10}
+.modal .card{width:100%;max-width:680px}
+.preview{max-width:220px;border-radius:10px;margin-top:8px}
+.hint{font-size:.8rem;color:var(--muted);margin-top:4px}
+.login{max-width:460px;margin:60px auto}
+.steps{margin:10px 0 0 18px;font-size:.88rem;color:var(--muted)}
+.steps li{margin:3px 0}
+.row{display:flex;gap:8px;align-items:center;margin-top:12px}
+.empty{padding:24px;text-align:center;color:var(--muted)}
+@media(max-width:620px){.grid2{grid-template-columns:1fr}.item{flex-wrap:wrap}.item .a{width:100%;justify-content:flex-start}}
+</style>
+</head>
+<body>
+
+<div class="top"><b>Muskan Society · Admin</b><div class="r"><a href="/" target="_blank">View website ↗</a><button class="btn small" id="logout" style="display:none">Log out</button></div></div>
+
+<!-- LOGIN -->
+<div class="wrap" id="loginView">
+ <div class="card login">
+  <h2>Log in</h2>
+  <p class="muted">Use your GitHub access token. It stays in this browser only.</p>
+  <label for="tok">GitHub token</label>
+  <input type="password" id="tok" placeholder="github_pat_…" autocomplete="off">
+  <label for="repo">Repository</label>
+  <input type="text" id="repo" value="mkvkhitoli/muskansociety">
+  <div class="row"><input type="checkbox" id="remember" checked style="width:auto"><span class="muted">Remember on this device</span></div>
+  <div class="row"><button class="btn primary" id="loginBtn">Log in</button></div>
+  <details style="margin-top:16px"><summary class="muted" style="cursor:pointer">How do I get a token?</summary>
+   <ol class="steps">
+    <li>github.com → your photo → <b>Settings</b> → <b>Developer settings</b></li>
+    <li><b>Personal access tokens → Fine-grained tokens → Generate new token</b></li>
+    <li>Name: <i>Muskan CMS</i>, Expiration: 1 year</li>
+    <li>Repository access: <b>Only select repositories → muskansociety</b></li>
+    <li>Permissions → Repository → <b>Contents: Read and write</b></li>
+    <li>Generate, copy the token and paste it here</li>
+   </ol></details>
+ </div>
+</div>
+
+<!-- APP -->
+<div class="wrap" id="appView" style="display:none">
+ <div class="tabs" id="tabs"></div>
+ <div id="panel"></div>
+ <p class="muted" style="margin-top:20px">Every save updates the live website in about 1–2 minutes.</p>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal" id="modal"><div class="card"><div id="formBox"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var BRANCH = "main";
+var TOKEN = "", REPO = "";
+var cache = {}; // path -> {data, sha}
+
+/* ---------- content types ---------- */
+var L = function(k, label, extra){ var o = {k:k, label:label}; for (var x in extra||{}) o[x]=extra[x]; return o; };
+var TYPES = {
+ news: {title:"News", path:"data/news.json", key:"posts", sortDate:true,
+  help:"Newest first. Shown on the home page (latest 3) and the News page.",
+  fields:[L("date","Date",{type:"date",req:true}),
+   L("title_en","Title (English)",{req:true}), L("title_hi","Title (Hindi)"),
+   L("body_en","Text (English)",{type:"textarea"}), L("body_hi","Text (Hindi)",{type:"textarea"}),
+   L("type_en","Category (English)",{ph:"Event / Announcement"}), L("type_hi","Category (Hindi)",{ph:"कार्यक्रम / घोषणा"}),
+   L("image","Photo (optional)",{type:"image"})],
+  label:function(i){return i.title_en||"(untitled)";}, sub:function(i){return i.date||"";}, thumb:"image"},
+ events: {title:"Events", path:"data/events.json", key:"events",
+  help:"Upcoming events. Events with a past date hide automatically.",
+  fields:[L("date","Date",{ph:"2026-12-20  or  2026-12  or leave empty",hint:"Full date (YYYY-MM-DD), only month (YYYY-MM), or empty for “Coming Soon”."}),
+   L("title_en","Title (English)",{req:true}), L("title_hi","Title (Hindi)"),
+   L("body_en","Text (English)",{type:"textarea"}), L("body_hi","Text (Hindi)",{type:"textarea"}),
+   L("tag_en","Label (English)",{ph:"Sports / Awareness"}), L("tag_hi","Label (Hindi)",{ph:"खेल / जागरूकता"})],
+  label:function(i){return i.title_en||"(untitled)";}, sub:function(i){return i.date||"Coming soon";}},
+ photos: {title:"Photos", path:"data/gallery.json", key:"photos", bulk:true,
+  help:"Gallery page photos. Use “Upload many” to add several at once.",
+  fields:[L("src","Photo",{type:"image",req:true}), L("caption_en","Caption (English)"), L("caption_hi","Caption (Hindi)")],
+  label:function(i){return i.caption_en||i.src||"Photo";}, sub:function(){return "";}, thumb:"src"},
+ videos: {title:"Videos", path:"data/gallery.json", key:"videos",
+  help:"YouTube videos on the Gallery page.",
+  fields:[L("youtube_id","YouTube link",{req:true,ph:"https://youtu.be/…",hint:"Paste the full YouTube link."}),
+   L("title_en","Title (English)"), L("title_hi","Title (Hindi)")],
+  label:function(i){return i.title_en||i.youtube_id;}, sub:function(i){return i.youtube_id;}},
+ leaders: {title:"Office bearers", path:"data/team.json", key:"leaders",
+  help:"Founder, President, Secretary, Treasurer… (About page).",
+  fields:[L("name_en","Name (English)",{req:true}), L("name_hi","Name (Hindi)"),
+   L("role_en","Role (English)",{req:true,ph:"President"}), L("role_hi","Role (Hindi)",{ph:"अध्यक्ष"}),
+   L("photo","Photo (optional)",{type:"image",square:true})],
+  label:function(i){return i.name_en;}, sub:function(i){return i.role_en||"";}, thumb:"photo"},
+ members: {title:"Members", path:"data/team.json", key:"members",
+  help:"Members shown under the office bearers.",
+  fields:[L("name_en","Name (English)",{req:true}), L("name_hi","Name (Hindi)"),
+   L("role_en","Role (English, optional)",{ph:"Member"}), L("role_hi","Role (Hindi, optional)"),
+   L("photo","Photo (optional)",{type:"image",square:true})],
+  label:function(i){return i.name_en;}, sub:function(i){return i.role_en||"Member";}, thumb:"photo"},
+ settings: {title:"Contact & links", path:"data/settings.json", single:true,
+  help:"Shown in the footer, Contact page and WhatsApp forms.",
+  fields:[L("phone","Phone (as shown)",{ph:"+91 95221 51016"}), L("whatsapp","WhatsApp number for forms",{ph:"919522151016",hint:"Digits only, with 91 in front."}),
+   L("email","Email"), L("address_en","Address (English)",{type:"textarea"}), L("address_hi","Address (Hindi)",{type:"textarea"}),
+   L("hours_en","Office hours (English)"), L("hours_hi","Office hours (Hindi)"),
+   L("map_query","Map location",{hint:"Place name or exact address for the map."}),
+   L("facebook","Facebook page link"), L("instagram","Instagram link"), L("youtube","YouTube channel link")]}
+};
+var ORDER = ["news","events","photos","videos","leaders","members","settings"];
+var current = "news";
+
+/* ---------- helpers ---------- */
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function toast(msg, kind, ms){var t=$("toast");t.textContent=msg;t.className="toast "+(kind||"");t.style.display="block";clearTimeout(t._h);if(ms!==0)t._h=setTimeout(function(){t.style.display="none";},ms||3500);}
+function store(){try{return $("remember").checked?localStorage:sessionStorage;}catch(e){return null;}}
+function b64ToUtf8(b){var bin=atob(b.replace(/\s/g,""));var bytes=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
+function bytesToB64(bytes){var bin="";for(var i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin);}
+function utf8ToB64(s){return bytesToB64(new TextEncoder().encode(s));}
+function ytId(v){v=String(v||"").trim();var m=v.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([A-Za-z0-9_-]{11})/);if(m)return m[1];return /^[A-Za-z0-9_-]{11}$/.test(v)?v:"";}
+function slug(s){return String(s||"photo").toLowerCase().replace(/\.[a-z0-9]+$/,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)||"photo";}
+function imgUrl(p){return !p?"":(/^https?:/.test(p)?p:"/"+p.replace(/^\.?\//,""));}
+
+/* ---------- GitHub API ---------- */
+function api(path, opts){
+ opts=opts||{};
+ return fetch("https://api.github.com/repos/"+REPO+path,{method:opts.method||"GET",cache:"no-store",
+  headers:{"Authorization":"Bearer "+TOKEN,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},
+  body:opts.body?JSON.stringify(opts.body):undefined}).then(function(r){
+   if(r.status===404&&opts.allow404)return null;
+   if(!r.ok)return r.json().catch(function(){return{};}).then(function(j){var e=new Error(j.message||("GitHub error "+r.status));e.status=r.status;throw e;});
+   return r.json();});
+}
+function loadFile(path){
+ return api("/contents/"+path+"?ref="+BRANCH,{allow404:true}).then(function(j){
+  cache[path]= j ? {data:JSON.parse(b64ToUtf8(j.content)), sha:j.sha} : {data:{}, sha:null};
+  return cache[path];});
+}
+function saveFile(path, msg){
+ var f=cache[path];
+ return api("/contents/"+path,{method:"PUT",body:{message:msg,branch:BRANCH,content:utf8ToB64(JSON.stringify(f.data,null,2)+"\n"),sha:f.sha||undefined}})
+  .then(function(j){f.sha=j.content.sha;})
+  .catch(function(e){ if(e.status===409){ toast("Someone else changed this file. Reloading…","bad"); return loadFile(path).then(function(){render();throw e;}); } throw e; });
+}
+function resizeToJpeg(file, max, square){
+ return createImageBitmap(file).then(function(img){
+  var w=img.width,h=img.height,sx=0,sy=0,sw=w,sh=h;
+  if(square){var m=Math.min(w,h);sx=(w-m)/2;sy=(h-m)/2;sw=sh=m;w=h=m;}
+  var sc=Math.min(1,max/Math.max(w,h));var c=document.createElement("canvas");c.width=Math.round(w*sc);c.height=Math.round(h*sc);
+  c.getContext("2d").drawImage(img,sx,sy,sw,sh,0,0,c.width,c.height);
+  return new Promise(function(res){c.toBlob(res,"image/jpeg",0.82);});
+ }).then(function(blob){return blob.arrayBuffer();}).then(function(buf){return new Uint8Array(buf);});
+}
+function uploadImage(file, square){
+ var d=new Date(), name="images/"+d.toISOString().slice(0,10)+"-"+slug(file.name)+"-"+Math.random().toString(36).slice(2,6)+".jpg";
+ return resizeToJpeg(file, square?600:1600, square).then(function(bytes){
+  return api("/contents/"+name,{method:"PUT",body:{message:"Upload "+name,branch:BRANCH,content:bytesToB64(bytes)}});
+ }).then(function(){return name;});
+}
+
+/* ---------- login ---------- */
+function startApp(){
+ $("loginView").style.display="none";$("appView").style.display="block";$("logout").style.display="inline-block";
+ toast("Loading…","",0);
+ var paths={};ORDER.forEach(function(k){paths[TYPES[k].path]=1;});
+ Promise.all(Object.keys(paths).map(loadFile)).then(function(){toast("Ready","ok",1500);render();})
+  .catch(function(e){toast("Could not load: "+e.message,"bad",6000);});
+}
+$("loginBtn").onclick=function(){
+ TOKEN=$("tok").value.trim();REPO=$("repo").value.trim();
+ if(!TOKEN||!REPO){toast("Enter the token and repository","bad");return;}
+ this.disabled=true;var b=this;
+ api("").then(function(r){
+  if(!r.permissions||!r.permissions.push)throw new Error("This token cannot edit the repository. Give it Contents: Read and write.");
+  var s=store();try{s&&s.setItem("ms-cms",JSON.stringify({t:TOKEN,r:REPO}));}catch(e){}
+  startApp();
+ }).catch(function(e){toast(e.status===401?"Wrong or expired token":e.message,"bad",6000);}).then(function(){b.disabled=false;});
+};
+$("logout").onclick=function(){try{localStorage.removeItem("ms-cms");sessionStorage.removeItem("ms-cms");}catch(e){}location.reload();};
+(function(){var saved=null;try{saved=JSON.parse(localStorage.getItem("ms-cms")||sessionStorage.getItem("ms-cms")||"null");}catch(e){}
+ if(saved&&saved.t){TOKEN=saved.t;REPO=saved.r;startApp();}})();
+
+/* ---------- list view ---------- */
+function list(){var T=TYPES[current],f=cache[T.path].data;if(!Array.isArray(f[T.key]))f[T.key]=[];return f[T.key];}
+function render(){
+ $("tabs").innerHTML=ORDER.map(function(k){return '<button class="tab'+(k===current?" on":"")+'" data-tab="'+k+'">'+TYPES[k].title+"</button>";}).join("");
+ var T=TYPES[current];
+ if(T.single){renderSettings();return;}
+ var items=list();
+ if(T.sortDate)items.sort(function(a,b){return String(b.date||"").localeCompare(String(a.date||""));});
+ var rows=items.map(function(it,i){
+  var th=T.thumb?(it[T.thumb]?'<img src="'+esc(imgUrl(it[T.thumb]))+'" alt="" onerror="this.style.visibility=\'hidden\'">':'<div class="thumb0"></div>'):"";
+  return '<div class="item">'+th+'<div class="t"><b>'+esc(T.label(it))+'</b><span class="muted">'+esc(T.sub(it))+'</span></div><div class="a">'+
+   (T.sortDate?"":'<button class="btn small" data-up="'+i+'" title="Move up">↑</button><button class="btn small" data-down="'+i+'" title="Move down">↓</button>')+
+   '<button class="btn small" data-edit="'+i+'">Edit</button><button class="btn small danger" data-del="'+i+'">Delete</button></div></div>';
+ }).join("");
+ $("panel").innerHTML='<div class="card"><div class="bar"><div><h2>'+T.title+'</h2><p class="muted">'+T.help+'</p></div><div>'+
+  (T.bulk?'<label class="btn" style="display:inline-block;margin:0 6px 0 0">Upload many<input type="file" accept="image/*" multiple id="bulk" hidden></label>':"")+
+  '<button class="btn primary" data-edit="-1">+ Add new</button></div></div>'+(rows||'<div class="empty">Nothing here yet.</div>')+"</div>";
+ var bulk=$("bulk");if(bulk)bulk.onchange=bulkUpload;
+}
+$("tabs").onclick=function(e){var k=e.target.getAttribute("data-tab");if(k){current=k;render();}};
+$("panel").onclick=function(e){
+ var t=e.target,a;
+ if((a=t.getAttribute("data-edit"))!==null)openForm(+a);
+ else if((a=t.getAttribute("data-del"))!==null){
+  var it=list()[+a];if(!confirm("Delete “"+TYPES[current].label(it)+"”?"))return;
+  list().splice(+a,1);commit("Delete "+TYPES[current].title.toLowerCase()+" item");
+ }
+ else if((a=t.getAttribute("data-up"))!==null||(a=t.getAttribute("data-down"))!==null){
+  var i=+a,j=t.hasAttribute("data-up")?i-1:i+1,arr=list();if(j<0||j>=arr.length)return;
+  var x=arr[i];arr[i]=arr[j];arr[j]=x;commit("Reorder "+TYPES[current].title.toLowerCase());
+ }
+};
+function commit(msg){
+ var T=TYPES[current];toast("Saving…","",0);
+ return saveFile(T.path,msg).then(function(){render();toast("Saved ✓  Live in 1–2 minutes","ok");})
+  .catch(function(e){toast("Save failed: "+e.message,"bad",7000);});
+}
+
+/* ---------- form ---------- */
+function fieldHtml(f,val){
+ var v=esc(val==null?"":val),req=f.req?" *":"",ph=f.ph?' placeholder="'+esc(f.ph)+'"':"",hint=f.hint?'<div class="hint">'+esc(f.hint)+"</div>":"";
+ if(f.type==="textarea")return '<label>'+f.label+req+'</label><textarea name="'+f.k+'"'+ph+">"+v+"</textarea>"+hint;
+ if(f.type==="image")return '<label>'+f.label+req+'</label><input type="file" accept="image/*" name="'+f.k+'__file">'+
+  '<input type="hidden" name="'+f.k+'" value="'+v+'">'+(val?'<img class="preview" src="'+esc(imgUrl(val))+'" alt="" onerror="this.style.display=\'none\'"><div class="hint">'+v+' — choose a new file to replace</div>':'')+hint;
+ return '<label>'+f.label+req+'</label><input type="'+(f.type==="date"?"date":"text")+'" name="'+f.k+'" value="'+v+'"'+ph+">"+hint;
+}
+function openForm(idx){
+ var T=TYPES[current],it=idx>=0?list()[idx]:{};
+ if(current==="news"&&idx<0)it={date:new Date().toISOString().slice(0,10)};
+ var left=[],right=[],html="";
+ T.fields.forEach(function(f){var h=fieldHtml(f,it[f.k]);
+  if(/_en$/.test(f.k))left.push(h);else if(/_hi$/.test(f.k)){right.push(h);html+='<div class="grid2"><div>'+left.pop()+"</div><div>"+right.pop()+"</div></div>";}
+  else html+=h;});
+ left.forEach(function(h){html+=h;});
+ $("formBox").innerHTML='<h2>'+(idx>=0?"Edit":"Add")+" — "+T.title+'</h2><p class="muted">Fields marked * are required. If Hindi is empty, English is shown.</p><form id="f">'+html+
+  '<div class="row" style="margin-top:20px"><button class="btn primary" type="submit">Save</button><button class="btn" type="button" id="cancel">Cancel</button></div></form>';
+ $("modal").style.display="flex";$("modal").scrollTop=0;
+ $("cancel").onclick=closeForm;
+ $("f").onsubmit=function(e){e.preventDefault();submitForm(idx,this);};
+}
+function closeForm(){$("modal").style.display="none";}
+function submitForm(idx,form){
+ var T=TYPES[current],out={},uploads=[],btn=form.querySelector("button[type=submit]");
+ var base=idx>=0?list()[idx]:{};for(var k in base)out[k]=base[k];
+ for(var i=0;i<T.fields.length;i++){var f=T.fields[i],el=form.elements[f.k];
+  out[f.k]=el?el.value.trim():"";
+  if(f.type==="image"){var fi=form.elements[f.k+"__file"];if(fi&&fi.files[0])uploads.push({f:f,file:fi.files[0]});}
+  if(f.k==="youtube_id"&&out[f.k]){var id=ytId(out[f.k]);if(!id){toast("That YouTube link doesn't look right","bad");return;}out[f.k]=id;}
+  if(f.k==="date"&&current==="events"&&out.date&&!/^\d{4}-\d{2}(-\d{2})?$/.test(out.date)){toast("Date must be like 2026-12-20 or 2026-12","bad");return;}
+  if(f.k==="whatsapp")out[f.k]=out[f.k].replace(/\D/g,"");
+  if(/^(facebook|instagram|youtube)$/.test(f.k)&&out[f.k]&&!/^https?:\/\//.test(out[f.k]))out[f.k]="https://"+out[f.k];
+  var missing=f.req&&!out[f.k]&&!(f.type==="image"&&uploads.some(function(u){return u.f===f;}));
+  if(missing){toast("Please fill: "+f.label,"bad");return;}
+ }
+ btn.disabled=true;toast("Uploading…","",0);
+ uploads.reduce(function(p,u){return p.then(function(){return uploadImage(u.file,u.f.square).then(function(path){out[u.f.k]=path;});});},Promise.resolve())
+ .then(function(){
+  if(T.single){cache[T.path].data=out;}
+  else if(idx>=0)list()[idx]=out;else if(T.sortDate)list().unshift(out);else list().push(out);
+  return saveFile(T.path,T.single?"Update contact & links":(idx>=0?"Edit ":"Add ")+T.title.toLowerCase()+": "+T.label(out));
+ }).then(function(){closeForm();render();toast("Saved ✓  Live in 1–2 minutes","ok");})
+ .catch(function(e){toast("Save failed: "+e.message,"bad",7000);}).then(function(){btn.disabled=false;});
+}
+
+/* ---------- settings ---------- */
+function renderSettings(){
+ var T=TYPES.settings,d=cache[T.path].data||{};
+ $("panel").innerHTML='<div class="card"><h2>'+T.title+'</h2><p class="muted">'+T.help+'</p><form id="sf">'+
+  T.fields.map(function(f){return fieldHtml(f,d[f.k]);}).join("")+'<div class="row" style="margin-top:20px"><button class="btn primary" type="submit">Save</button></div></form></div>';
+ $("sf").onsubmit=function(e){e.preventDefault();submitForm(-1,this);};
+}
+
+/* ---------- bulk photos ---------- */
+function bulkUpload(e){
+ var files=[].slice.call(e.target.files||[]);if(!files.length)return;
+ var done=0,added=[];
+ files.reduce(function(p,file){return p.then(function(){toast("Uploading "+(done+1)+" of "+files.length+"…","",0);
+   return uploadImage(file,false).then(function(path){added.push({src:path,caption_en:"",caption_hi:""});done++;});});},Promise.resolve())
+ .then(function(){[].push.apply(list(),added);return commit("Add "+added.length+" photos");})
+ .catch(function(err){toast("Upload stopped: "+err.message,"bad",7000);if(added.length){[].push.apply(list(),added);commit("Add "+added.length+" photos");}});
+}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeForm();});
+})();
+</script>
+</body>
+</html>
